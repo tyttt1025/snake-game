@@ -20,6 +20,17 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN and game_over == True:
+            if event.key == pygame.K_r:
+                snake.clear()
+                snake_x = 40
+                snake_y = 0
+                snake = [(0, 0), (20, 0), (40, 0)]
+                food_x = random.randrange(0, 1280, 20)
+                food_y = random.randrange(0, 720, 20)
+                direction = 0
+                game_over = False
+                screen.fill("black")
 
     if game_over == False:
         if snake_x == food_x - 20 and snake_y == food_y and (direction == "right" or direction == 0):
@@ -71,6 +82,7 @@ while running:
             pygame.draw.rect(screen, (255, 0, 0), (food_x, food_y, 20, 20))
             past_time = pygame.time.get_ticks()
 
+
         if snake_x < 0 or snake_x > 1280 or snake_y < 0 or snake_y > 720 or (snake_x, snake_y) in snake[:-1]:
             game_over = True
             font = pygame.font.Font(None, 50)
@@ -79,7 +91,6 @@ while running:
             gameover_screen = text_surface.get_rect(center=(640, 320))
             screen.blit(text_surface, gameover_screen)
             pygame.display.flip()
-
 
     pygame.display.flip()
     clock.tick(60)
